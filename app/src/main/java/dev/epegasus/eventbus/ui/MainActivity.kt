@@ -9,6 +9,7 @@ import dev.epegasus.eventbus.models.Score
 import dev.epegasus.eventbus.poster.Calculate
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,12 +19,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.button.setOnClickListener { onButtonClick() }
-    }
-
-    override fun onResume() {
-        super.onResume()
         registerEvent()
+
+        binding.button.setOnClickListener { onButtonClick() }
     }
 
     private fun registerEvent() {
@@ -56,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         Calculate().calculateResult()
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(score: Score) {
         Log.d(TAG, "onMessageEvent: $score")
         binding.textView.text = score.toString()

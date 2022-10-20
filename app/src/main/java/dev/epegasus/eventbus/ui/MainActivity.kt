@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        EventBus().unregister(this)
+        EventBus.getDefault().unregister(this)
     }
 
     companion object {
